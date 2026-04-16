@@ -32,14 +32,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-              <Image
-                src="/logo.png"
-                alt="LogoConation"
-                width={400}
-                height={160}
-              />
+
             </div>
-            <span className="font-bold text-lg text-white hidden sm:inline text-foreground">ERP CRM Conation</span>
+            <span className="font-bold text-lg text-white hidden sm:inline text-foreground">ERP CRM</span>
           </Link>
 
           {/* Desktop Menu */}

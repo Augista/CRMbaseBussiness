@@ -9,7 +9,7 @@ const _geist = Geist({ subsets: ['latin'] })
 const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ERP CRM Conation',
+  title: 'ERP CRM Dashboard',
   description: 'Complete ERP solution with CRM, Sales, Inventory, Accounting, Projects & HR',
 }
 
