@@ -49,11 +49,11 @@ export default function AccountingPage() {
         </Card>
         <Card className="p-6">
           <p className="text-slate-600 text-sm mb-2">Total Expenses</p>
-          <p className="text-2xl font-bold">$2,150</p>
+          <p className="text-2xl font-bold">Rp 21,150,000</p>
         </Card>
         <Card className="p-6">
           <p className="text-slate-600 text-sm mb-2">Net Income</p>
-          <p className="text-2xl font-bold text-green-600">$21,650</p>
+          <p className="text-2xl font-bold text-green-600">Rp 21,650,000</p>
         </Card>
       </div>
 

@@ -134,6 +134,7 @@ export default function Dashboard() {
         </Card>
       </div>
 
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-6">
           <h3 className="font-semibold mb-4">Pending Invoices</h3>
