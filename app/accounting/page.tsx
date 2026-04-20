@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Plus, Edit2, Trash2, Search } from 'lucide-react'
+import { AddInvoiceModal } from '@/components/modals/add-invoice-modal'
 
-const mockInvoices = [
+const initialInvoices = [
   { id: '1', invoiceNumber: 'INV-2024-001', customer: 'Acme Corp', date: '2024-01-10', amount: 'Rp 5,250,000', status: 'Paid' },
   { id: '2', invoiceNumber: 'INV-2024-002', customer: 'Tech Solutions', date: '2024-01-15', amount: 'Rp 8,900,000', status: 'Pending' },
   { id: '3', invoiceNumber: 'INV-2024-003', customer: 'Global Industries', date: '2024-01-18', amount: 'Rp 3,450,000', status: 'Overdue' },
@@ -26,12 +27,32 @@ const mockBankAccounts = [
 export default function AccountingPage() {
   const [activeTab, setActiveTab] = useState('invoices')
   const [search, setSearch] = useState('')
+  const [invoices, setInvoices] = useState(initialInvoices)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleAddInvoice = (data: any) => {
+    const newInvoice = {
+      id: (invoices.length + 1).toString(),
+      ...data,
+      amount: `Rp ${parseInt(data.amount).toLocaleString('id-ID')}`,
+    }
+    setInvoices([...invoices, newInvoice])
+    console.log('[v0] Invoice added:', newInvoice)
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
+      <AddInvoiceModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleAddInvoice}
+      />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-foreground">Accounting & Finance</h1>
-        <Button className="bg-primary hover:bg-accent text-primary-foreground">
+        <Button
+          className="bg-primary hover:bg-accent text-primary-foreground"
+          onClick={() => setIsModalOpen(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           New Invoice
         </Button>
@@ -49,11 +70,11 @@ export default function AccountingPage() {
         </Card>
         <Card className="p-6">
           <p className="text-slate-600 text-sm mb-2">Total Expenses</p>
-          <p className="text-2xl font-bold">Rp 21,150,000</p>
+          <p className="text-2xl font-bold">$2,150</p>
         </Card>
         <Card className="p-6">
           <p className="text-slate-600 text-sm mb-2">Net Income</p>
-          <p className="text-2xl font-bold text-green-600">Rp 21,650,000</p>
+          <p className="text-2xl font-bold text-green-600">$21,650</p>
         </Card>
       </div>
 
@@ -108,7 +129,7 @@ export default function AccountingPage() {
                 </tr>
               </thead>
               <tbody>
-                {mockInvoices.map((invoice) => (
+                {invoices.map((invoice) => (
                   <tr key={invoice.id} className="border-b border-slate-200 hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium">{invoice.invoiceNumber}</td>
                     <td className="px-6 py-4">{invoice.customer}</td>

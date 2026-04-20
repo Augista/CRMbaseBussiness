@@ -27,37 +27,37 @@ const dashboardStats = [
     title: 'Total Customers',
     value: '245',
     icon: Users,
-    color: 'bg-blue-100 text-blue-600',
+    color: ' text-yellow-700',
   },
   {
     title: 'Products in Stock',
     value: '1,234',
     icon: Package,
-    color: 'bg-green-100 text-green-600',
+    color: ' text-yellow-700',
   },
   {
     title: 'Total Revenue',
     value: 'Rp 89,450,000',
     icon: DollarSign,
-    color: 'bg-purple-100 text-purple-600',
+    color: 'text-yellow-700',
   },
   {
     title: 'Active Projects',
     value: '12',
     icon: Briefcase,
-    color: 'bg-orange-100 text-orange-600',
+    color: 'text-yellow-700',
   },
   {
     title: 'Total Employees',
     value: '45',
     icon: UserCheck,
-    color: 'bg-pink-100 text-pink-600',
+    color: 'text-yellow-700',
   },
   {
     title: 'Growth',
     value: '+12.5%',
     icon: TrendingUp,
-    color: 'bg-emerald-100 text-emerald-600',
+    color: 'text-yellow-700',
   },
 ]
 

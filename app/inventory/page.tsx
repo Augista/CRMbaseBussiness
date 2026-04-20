@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Plus, Edit2, Trash2, Search } from 'lucide-react'
+import { AddProductModal } from '@/components/modals/add-product-modal'
 
-const mockProducts = [
+const initialProducts = [
   { id: '1', sku: 'PROD-001', name: 'Laptop Pro', category: 'Electronics', price: 'Rp 1,299,000', quantity: 45, warehouse: 'Main Warehouse' },
   { id: '2', sku: 'PROD-002', name: 'Monitor 27"', category: 'Electronics', price: 'Rp 399,000', quantity: 120, warehouse: 'Main Warehouse' },
   { id: '3', sku: 'PROD-003', name: 'Keyboard', category: 'Accessories', price: 'Rp 79,000', quantity: 230, warehouse: 'Secondary' },
@@ -22,12 +23,32 @@ const mockWarehouses = [
 export default function InventoryPage() {
   const [activeTab, setActiveTab] = useState('products')
   const [search, setSearch] = useState('')
+  const [products, setProducts] = useState(initialProducts)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleAddProduct = (data: any) => {
+    const newProduct = {
+      id: (products.length + 1).toString(),
+      ...data,
+      price: `Rp ${parseInt(data.price).toLocaleString('id-ID')}`,
+    }
+    setProducts([...products, newProduct])
+    console.log('[v0] Product added:', newProduct)
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
+      <AddProductModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleAddProduct}
+      />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-foreground">Product & Inventory</h1>
-        <Button className="bg-primary hover:bg-accent text-primary-foreground">
+        <Button
+          className="bg-primary hover:bg-accent text-primary-foreground"
+          onClick={() => setIsModalOpen(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Product
         </Button>
@@ -85,7 +106,7 @@ export default function InventoryPage() {
                 </tr>
               </thead>
               <tbody>
-                {mockProducts.map((product) => (
+                {products.map((product) => (
                   <tr key={product.id} className="border-b border-slate-200 hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium text-slate-600">{product.sku}</td>
                     <td className="px-6 py-4 font-medium">{product.name}</td>

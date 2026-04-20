@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Plus, Edit2, Trash2, Search } from 'lucide-react'
+import { AddEmployeeModal } from '@/components/modals/add-employee-modal'
 
-const mockEmployees = [
+const initialEmployees = [
   { id: '1', name: 'John Doe', email: 'john@company.com', phone: '555-1234', department: 'Engineering', position: 'Senior Developer', status: 'Active' },
   { id: '2', name: 'Jane Smith', email: 'jane@company.com', phone: '555-5678', department: 'Design', position: 'UI/UX Designer', status: 'Active' },
   { id: '3', name: 'Mike Johnson', email: 'mike@company.com', phone: '555-9012', department: 'Engineering', position: 'Backend Developer', status: 'Active' },
@@ -28,12 +29,36 @@ const mockExpenses = [
 export default function HRPage() {
   const [activeTab, setActiveTab] = useState('employees')
   const [search, setSearch] = useState('')
+  const [employees, setEmployees] = useState(initialEmployees)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleAddEmployee = (data: any) => {
+    const newEmployee = {
+      id: (employees.length + 1).toString(),
+      name: `${data.firstName} ${data.lastName}`,
+      email: data.email,
+      phone: data.phone,
+      department: data.department,
+      position: data.position,
+      status: data.status,
+    }
+    setEmployees([...employees, newEmployee])
+    console.log('[v0] Employee added:', newEmployee)
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
+      <AddEmployeeModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleAddEmployee}
+      />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-foreground">Human Resources</h1>
-        <Button className="bg-primary hover:bg-accent text-primary-foreground">
+        <Button
+          className="bg-primary hover:bg-accent text-primary-foreground"
+          onClick={() => setIsModalOpen(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Employee
         </Button>
@@ -106,7 +131,7 @@ export default function HRPage() {
                 </tr>
               </thead>
               <tbody>
-                {mockEmployees.map((employee) => (
+                {employees.map((employee) => (
                   <tr key={employee.id} className="border-b border-slate-200 hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium">{employee.name}</td>
                     <td className="px-6 py-4 text-slate-600">{employee.email}</td>

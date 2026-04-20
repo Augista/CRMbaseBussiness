@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Plus, Edit2, Trash2, Search } from 'lucide-react'
+import { AddProjectModal } from '@/components/modals/add-project-modal'
 
-const mockProjects = [
+const initialProjects = [
   { id: '1', name: 'Website Redesign', status: 'In Progress', progress: 65, budget: 'Rp 15,000,000', team: 5 },
   { id: '2', name: 'Mobile App Development', status: 'In Progress', progress: 45, budget: 'Rp 25,000,000', team: 8 },
   { id: '3', name: 'Database Migration', status: 'Planning', progress: 20, budget: 'Rp 8,000,000', team: 3 },
@@ -22,12 +23,32 @@ const mockTasks = [
 export default function ProjectsPage() {
   const [activeTab, setActiveTab] = useState('projects')
   const [search, setSearch] = useState('')
+  const [projects, setProjects] = useState(initialProjects)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleAddProject = (data: any) => {
+    const newProject = {
+      id: (projects.length + 1).toString(),
+      ...data,
+      budget: `Rp ${parseInt(data.budget).toLocaleString('id-ID')}`,
+    }
+    setProjects([...projects, newProject])
+    console.log('[v0] Project added:', newProject)
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
+      <AddProjectModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleAddProject}
+      />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-foreground">Project Management</h1>
-        <Button className="bg-primary hover:bg-accent text-primary-foreground">
+        <Button
+          className="bg-primary hover:bg-accent text-primary-foreground"
+          onClick={() => setIsModalOpen(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           New Project
         </Button>
@@ -71,7 +92,7 @@ export default function ProjectsPage() {
       {/* Projects Tab */}
       {activeTab === 'projects' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {mockProjects.map((project) => (
+                {projects.map((project) => (
             <Card key={project.id} className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>

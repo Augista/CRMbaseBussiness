@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import Image from 'next/image'
 import {
   Home,
   Users,
@@ -12,6 +11,7 @@ import {
   UserCheck,
   Menu,
   X,
+  Ship,
 } from 'lucide-react'
 
 const navItems = [
@@ -21,31 +21,32 @@ const navItems = [
   { href: '/accounting', label: 'Accounting', icon: DollarSign },
   { href: '/projects', label: 'Projects', icon: Briefcase },
   { href: '/hr', label: 'HR', icon: UserCheck },
+  { href: '/logistics', label: 'Logistics', icon: Ship },
 ]
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <nav className="bg-primary border-b border-border sticky top-0 z-50 shadow-sm">
+    <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold">E</span>
             </div>
-            <span className="font-bold text-lg text-white hidden sm:inline text-foreground">ERP CRM</span>
+            <span className="font-bold text-lg hidden sm:inline text-foreground">ERP System</span>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex gap-6">
+          <div className="hidden md:flex gap-1">
             {navItems.map((item) => {
               const Icon = item.icon
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-sm text-white hover:text-accent"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-sm text-foreground hover:text-accent"
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.label}</span>
@@ -57,7 +58,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-muted text-white"
+            className="md:hidden p-2 rounded-lg hover:bg-muted text-foreground"
           >
             {isOpen ? (
               <X className="w-6 h-6" />

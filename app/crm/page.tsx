@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Plus, Edit2, Trash2, Search } from 'lucide-react'
+import { AddCustomerModal } from '@/components/modals/add-customer-modal'
 
-const mockCustomers = [
+const initialCustomers = [
   { id: '1', name: 'Acme Corp', email: 'contact@acme.com', phone: '555-1234', city: 'New York', status: 'Active' },
   { id: '2', name: 'Tech Solutions', email: 'info@tech.com', phone: '555-5678', city: 'San Francisco', status: 'Active' },
   { id: '3', name: 'Global Industries', email: 'sales@global.com', phone: '555-9012', city: 'Chicago', status: 'Prospect' },
@@ -22,12 +23,31 @@ const mockOrders = [
 export default function CRMPage() {
   const [activeTab, setActiveTab] = useState('customers')
   const [search, setSearch] = useState('')
+  const [customers, setCustomers] = useState(initialCustomers)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleAddCustomer = (data: any) => {
+    const newCustomer = {
+      id: (customers.length + 1).toString(),
+      ...data,
+    }
+    setCustomers([...customers, newCustomer])
+    console.log('[v0] Customer added:', newCustomer)
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
+      <AddCustomerModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleAddCustomer}
+      />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-foreground">CRM & Sales</h1>
-        <Button className="bg-primary hover:bg-accent text-primary-foreground">
+        <Button
+          className="bg-primary hover:bg-accent text-primary-foreground"
+          onClick={() => setIsModalOpen(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add New
         </Button>
@@ -84,7 +104,7 @@ export default function CRMPage() {
                 </tr>
               </thead>
               <tbody>
-                {mockCustomers.map((customer) => (
+                {customers.map((customer) => (
                   <tr key={customer.id} className="border-b border-slate-200 hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium">{customer.name}</td>
                     <td className="px-6 py-4 text-slate-600">{customer.email}</td>
